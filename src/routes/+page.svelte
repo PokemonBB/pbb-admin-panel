@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { authStore } from '$lib/stores/auth';
 	import { userConfigStore } from '$lib/stores/userConfig';
 	import { translationStore } from '$lib/stores/translations';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { PUBLIC_API_BASE_URL } from '$env/static/public';
-	import { PUBLIC_CDS_BASE_URL } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 
 	onMount(() => {
 		userConfigStore.init();
@@ -22,8 +20,8 @@
 	let swaggerApiUrl = '';
 	let swaggerCdsUrl = '';
 	if (browser) {
-		swaggerApiUrl = `${PUBLIC_API_BASE_URL}`;
-		swaggerCdsUrl = `${PUBLIC_CDS_BASE_URL}`;
+		swaggerApiUrl = env.PUBLIC_API_BASE_URL || '';
+		swaggerCdsUrl = env.PUBLIC_CDS_BASE_URL || '';
 	}
 
 	$: menuItems = [
