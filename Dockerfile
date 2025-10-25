@@ -23,6 +23,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build the application
+ARG PUBLIC_API_BASE_URL
+ARG PUBLIC_CDS_BASE_URL
+ENV PUBLIC_API_BASE_URL=${PUBLIC_API_BASE_URL}
+ENV PUBLIC_CDS_BASE_URL=${PUBLIC_CDS_BASE_URL}
 RUN yarn build
 
 # Production image, copy all the files and run the app
@@ -31,6 +35,16 @@ WORKDIR /usr/share/nginx/html
 
 # Copy the built application from the builder stage
 COPY --from=builder /app/build .
+
+# Runtime env injection: generate /usr/share/nginx/html/env.js at container start
+RUN printf '#!/bin/sh\n' > /docker-entrypoint.d/99-env-js.sh \
+ && printf 'cat > /usr/share/nginx/html/env.js << EOF\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf 'window.__ENV__ = Object.assign(window.__ENV__||{}, {\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf '  PUBLIC_API_BASE_URL: "\\${PUBLIC_API_BASE_URL}" ,\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf '  PUBLIC_CDS_BASE_URL: "\\${PUBLIC_CDS_BASE_URL}"\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf '});\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf 'EOF\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && chmod +x /docker-entrypoint.d/99-env-js.sh
 
 # Copy nginx configuration for SPA routing
 COPY nginx.conf /etc/nginx/conf.d/default.conf

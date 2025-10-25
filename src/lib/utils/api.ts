@@ -1,4 +1,13 @@
-export const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL || '/api';
+// Runtime env support via window.__ENV__ populated by /env.js (if present)
+// Fallback to build-time PUBLIC_ vars and finally to '/api'
+declare global {
+	interface Window {
+		__ENV__?: Record<string, string>;
+	}
+}
+
+const runtimeApiBase = typeof window !== 'undefined' && window.__ENV__?.PUBLIC_API_BASE_URL;
+export const API_BASE_URL = runtimeApiBase || import.meta.env.PUBLIC_API_BASE_URL || '/api';
 
 interface LoginRequest {
 	username: string;
