@@ -36,14 +36,16 @@ WORKDIR /usr/share/nginx/html
 # Copy the built application from the builder stage
 COPY --from=builder /app/build .
 
-# Runtime env injection: generate /usr/share/nginx/html/env.js at container start
+# Runtime environment injection: generate /usr/share/nginx/html/env.js at container start
 RUN printf '#!/bin/sh\n' > /docker-entrypoint.d/99-env-js.sh \
+ && printf 'echo "Generating env.js with ENVIRONMENT=\\$ENVIRONMENT"\n' >> /docker-entrypoint.d/99-env-js.sh \
  && printf 'cat > /usr/share/nginx/html/env.js << EOF\n' >> /docker-entrypoint.d/99-env-js.sh \
  && printf 'window.__ENV__ = Object.assign(window.__ENV__||{}, {\n' >> /docker-entrypoint.d/99-env-js.sh \
- && printf '  PUBLIC_API_BASE_URL: "\\${PUBLIC_API_BASE_URL}" ,\n' >> /docker-entrypoint.d/99-env-js.sh \
- && printf '  PUBLIC_CDS_BASE_URL: "\\${PUBLIC_CDS_BASE_URL}"\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf '  ENVIRONMENT: "\\${ENVIRONMENT:-local}"\n' >> /docker-entrypoint.d/99-env-js.sh \
  && printf '});\n' >> /docker-entrypoint.d/99-env-js.sh \
  && printf 'EOF\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf 'echo "Generated env.js:"\n' >> /docker-entrypoint.d/99-env-js.sh \
+ && printf 'cat /usr/share/nginx/html/env.js\n' >> /docker-entrypoint.d/99-env-js.sh \
  && chmod +x /docker-entrypoint.d/99-env-js.sh
 
 # Copy nginx configuration for SPA routing

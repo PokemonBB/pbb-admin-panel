@@ -3,7 +3,7 @@
 	import { translationStore } from '$lib/stores/translations';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	// Prefer runtime window.__ENV__ if present; fallback to build-time PUBLIC_ vars
+	import { config } from '$lib/config/environment';
 
 	onMount(() => {
 		userConfigStore.init();
@@ -16,21 +16,12 @@
 		unsubscribe();
 	});
 
-	// Get URLs for Swagger (runtime env first, then build-time)
+	// Get URLs for Swagger from environment configuration
 	let swaggerApiUrl = '';
 	let swaggerCdsUrl = '';
 	if (browser) {
-		const w = window as any;
-		swaggerApiUrl = (
-			w.__ENV__?.PUBLIC_API_BASE_URL ||
-			import.meta.env.PUBLIC_API_BASE_URL ||
-			''
-		).toString();
-		swaggerCdsUrl = (
-			w.__ENV__?.PUBLIC_CDS_BASE_URL ||
-			import.meta.env.PUBLIC_CDS_BASE_URL ||
-			''
-		).toString();
+		swaggerApiUrl = config.API_BASE_URL;
+		swaggerCdsUrl = config.CDS_BASE_URL;
 	}
 
 	$: menuItems = [

@@ -1,13 +1,7 @@
-// Runtime env support via window.__ENV__ populated by /env.js (if present)
-// Fallback to build-time PUBLIC_ vars and finally to '/api'
-declare global {
-	interface Window {
-		__ENV__?: Record<string, string>;
-	}
-}
+import { config } from '$lib/config/environment';
 
-const runtimeApiBase = typeof window !== 'undefined' && window.__ENV__?.PUBLIC_API_BASE_URL;
-export const API_BASE_URL = runtimeApiBase || import.meta.env.PUBLIC_API_BASE_URL || '/api';
+// Use environment-based configuration
+export const API_BASE_URL = config.API_BASE_URL;
 
 interface LoginRequest {
 	username: string;
