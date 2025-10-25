@@ -8,7 +8,9 @@
     "signingIn": "Iniciando sesión...",
     "username": "Usuario",
     "password": "Contraseña",
-    "rememberMe": "Recordarme"
+    "rememberMe": "Recordarme",
+    "open": "Abrir",
+    "goTo": "Ir a"
   },
   "login": {
     "signInToAccount": "Inicia sesión en tu cuenta",

@@ -58,10 +58,12 @@
 			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<div class="flex h-16 justify-between">
 					<div class="flex items-center space-x-3">
-						<img src={pbbLogo} alt="PBB Logo" class="h-8 w-8" />
-						<h1 class="text-xl font-semibold" style="color: var(--text-primary);">
-							{$translationStore.translations?.common.adminPanel || 'Admin Panel'}
-						</h1>
+						<a href="/" class="flex items-center space-x-3 hover:opacity-90">
+							<img src={pbbLogo} alt="PBB Logo" class="h-8 w-8" />
+							<h1 class="text-xl font-semibold" style="color: var(--text-primary);">
+								{$translationStore.translations?.common.adminPanel || 'Admin Panel'}
+							</h1>
+						</a>
 					</div>
 					<div class="flex items-center space-x-4">
 						<LanguageToggle />

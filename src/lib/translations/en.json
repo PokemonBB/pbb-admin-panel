@@ -8,7 +8,9 @@
     "signingIn": "Signing in...",
     "username": "Username",
     "password": "Password",
-    "rememberMe": "Remember me"
+    "rememberMe": "Remember me",
+    "open": "Open",
+    "goTo": "Go to"
   },
   "login": {
     "signInToAccount": "Sign in to your account",
