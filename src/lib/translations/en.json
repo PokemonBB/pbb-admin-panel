@@ -39,6 +39,7 @@
     "swaggerCdsDescription": "CDS API documentation"
   },
   "users": {
+    "title": "Users",
     "searchPlaceholder": "Search users by username...",
     "username": "Username",
     "email": "Email",

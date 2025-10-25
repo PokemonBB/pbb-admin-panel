@@ -1,22 +1,8 @@
 <script lang="ts">
-	import { userConfigStore } from '$lib/stores/userConfig';
 	import { translationStore } from '$lib/stores/translations';
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { config } from '$lib/config/environment';
 
-	onMount(() => {
-		userConfigStore.init();
-		translationStore.init();
-
-		// Debug: Check if translations are loading
-		const unsubscribe = translationStore.subscribe((state) => {
-			console.log('Translation state:', state);
-		});
-		unsubscribe();
-	});
-
-	// Get URLs for Swagger from environment configuration
 	let swaggerApiUrl = '';
 	let swaggerCdsUrl = '';
 	if (browser) {
