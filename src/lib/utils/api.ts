@@ -125,7 +125,6 @@ interface User {
 	active: boolean;
 	createdAt: string;
 	updatedAt: string;
-	canInvite: boolean;
 }
 
 interface UsersResponse {
@@ -163,6 +162,64 @@ interface CreateInvitationResponse {
 		expiresAt: string;
 		createdAt: string;
 	};
+}
+
+interface ActivateAccountRequest {
+	code: string;
+}
+
+interface ActivateAccountResponse {
+	message: string;
+	success: boolean;
+	invitationCode?: string;
+}
+
+interface ResendActivationRequest {
+	email: string;
+}
+
+interface ResendActivationResponse {
+	message: string;
+	success: boolean;
+}
+
+interface DeleteMeRequest {
+	password: string;
+}
+
+interface DeleteMeResponse {
+	message: string;
+	deleted: boolean;
+}
+
+interface UpdateMyUsernameRequest {
+	username: string;
+}
+
+interface UpdateMyUsernameResponse {
+	message: string;
+	success: boolean;
+	username: string;
+}
+
+interface UpdateMyEmailRequest {
+	email: string;
+}
+
+interface UpdateMyEmailResponse {
+	message: string;
+	success: boolean;
+	email: string;
+}
+
+interface UpdateMyPasswordRequest {
+	currentPassword: string;
+	newPassword: string;
+}
+
+interface UpdateMyPasswordResponse {
+	message: string;
+	success: boolean;
 }
 
 interface ApiError {
@@ -348,6 +405,39 @@ class ApiClient {
 		});
 	}
 
+	async updateMyUsername(data: UpdateMyUsernameRequest): Promise<UpdateMyUsernameResponse> {
+		return this.makeRequest<UpdateMyUsernameResponse>('/users/me/username', {
+			method: 'PATCH',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
+
+	async updateMyEmail(data: UpdateMyEmailRequest): Promise<UpdateMyEmailResponse> {
+		return this.makeRequest<UpdateMyEmailResponse>('/users/me/email', {
+			method: 'PATCH',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
+
+	async updateMyPassword(data: UpdateMyPasswordRequest): Promise<UpdateMyPasswordResponse> {
+		return this.makeRequest<UpdateMyPasswordResponse>('/users/me/password', {
+			method: 'PATCH',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
+
 	async getUsers(params: GetUsersParams = {}): Promise<UsersResponse> {
 		const searchParams = new URLSearchParams();
 		if (params.page) searchParams.append('page', params.page.toString());
@@ -397,6 +487,39 @@ class ApiClient {
 			}
 		});
 	}
+
+	async deleteCurrentUser(data: DeleteMeRequest): Promise<DeleteMeResponse> {
+		return this.makeRequest<DeleteMeResponse>('/users/me', {
+			method: 'DELETE',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
+
+	async activateAccount(data: ActivateAccountRequest): Promise<ActivateAccountResponse> {
+		return this.makeRequest<ActivateAccountResponse>('/activation/activate', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
+
+	async resendActivation(data: ResendActivationRequest): Promise<ResendActivationResponse> {
+		return this.makeRequest<ResendActivationResponse>('/activation/resend', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
@@ -415,9 +538,13 @@ export const userApi = {
 	getProfile: () => apiClient.getUserProfile(),
 	updateConfiguration: (configuration: UserConfiguration) =>
 		apiClient.updateUserConfiguration(configuration),
+	updateMyUsername: (data: UpdateMyUsernameRequest) => apiClient.updateMyUsername(data),
+	updateMyEmail: (data: UpdateMyEmailRequest) => apiClient.updateMyEmail(data),
+	updateMyPassword: (data: UpdateMyPasswordRequest) => apiClient.updateMyPassword(data),
 	getUsers: (params?: GetUsersParams) => apiClient.getUsers(params),
 	searchUsers: (params: SearchUsersParams) => apiClient.searchUsers(params),
-	getUserById: (id: string) => apiClient.getUserById(id)
+	getUserById: (id: string) => apiClient.getUserById(id),
+	deleteMe: (data: DeleteMeRequest) => apiClient.deleteCurrentUser(data)
 };
 
 export const adminApi = {
@@ -431,6 +558,11 @@ export const auditApi = {
 
 export const invitationApi = {
 	create: (data?: CreateInvitationRequest) => apiClient.createInvitation(data)
+};
+
+export const activationApi = {
+	activate: (data: ActivateAccountRequest) => apiClient.activateAccount(data),
+	resend: (data: ResendActivationRequest) => apiClient.resendActivation(data)
 };
 
 export type {
@@ -456,5 +588,17 @@ export type {
 	SearchUsersParams,
 	GetUsersParams,
 	CreateInvitationRequest,
-	CreateInvitationResponse
+	CreateInvitationResponse,
+	ActivateAccountRequest,
+	ActivateAccountResponse,
+	ResendActivationRequest,
+	ResendActivationResponse,
+	DeleteMeRequest,
+	DeleteMeResponse,
+	UpdateMyUsernameRequest,
+	UpdateMyUsernameResponse,
+	UpdateMyEmailRequest,
+	UpdateMyEmailResponse,
+	UpdateMyPasswordRequest,
+	UpdateMyPasswordResponse
 };
