@@ -7,6 +7,7 @@ interface User {
 	username: string;
 	email: string;
 	role: string;
+	canInvite: boolean;
 }
 
 interface AuthState {

@@ -46,6 +46,7 @@ interface Translations {
 		email: string;
 		role: string;
 		status: string;
+		canInvite: string;
 		createdAt: string;
 		updatedAt: string;
 		active: string;

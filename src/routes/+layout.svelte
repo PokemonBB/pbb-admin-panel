@@ -8,6 +8,7 @@
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import LanguageToggle from '$lib/components/LanguageToggle.svelte';
+	import CreateInvitationButton from '$lib/components/CreateInvitationButton.svelte';
 	import { userConfigStore } from '$lib/stores/userConfig';
 	import { translationStore } from '$lib/stores/translations';
 	import { page } from '$app/stores';
@@ -68,6 +69,7 @@
 					<div class="flex items-center space-x-4">
 						<LanguageToggle />
 						<ThemeToggle />
+						<CreateInvitationButton />
 						<span class="text-sm" style="color: var(--text-secondary);"
 							>{$translationStore.translations?.common.welcome || 'Welcome'}, {$authStore.user
 								?.username}</span

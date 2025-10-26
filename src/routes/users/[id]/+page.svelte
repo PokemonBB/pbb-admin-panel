@@ -20,7 +20,8 @@
 		username: '',
 		email: '',
 		role: 'USER',
-		active: true
+		active: true,
+		canInvite: false
 	};
 
 	// Computed properties for permissions
@@ -49,7 +50,8 @@
 				username: user.username,
 				email: user.email,
 				role: user.role as 'ROOT' | 'ADMIN' | 'USER',
-				active: user.active
+				active: user.active,
+				canInvite: user.canInvite
 			};
 		} catch (err) {
 			error = $translationStore.translations?.users.loadError || 'Error loading user';
@@ -309,21 +311,52 @@
 								>
 									{$translationStore.translations?.users.status || 'Status'}
 								</label>
-								<select
-									id="active"
-									bind:value={formData.active}
-									class="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-									style="border-color: var(--border-primary); background-color: var(--bg-primary); color: var(--text-primary);"
-								>
-									<option value={true}>
-										{$translationStore.translations?.users.active || 'Active'}
-									</option>
-									<option value={false}>
-										{$translationStore.translations?.users.inactive || 'Inactive'}
-									</option>
-								</select>
+								<div class="mt-2">
+									<button
+										id="active"
+										type="button"
+										role="switch"
+										aria-checked={formData.active}
+										aria-label={$translationStore.translations?.users.status || 'Status'}
+										on:click={() => (formData.active = !formData.active)}
+										class="relative inline-flex h-6 w-11 items-center rounded-full transition"
+										style={`background-color: ${formData.active ? 'var(--accent-primary)' : 'var(--border-primary)'};`}
+									>
+										<span
+											class="inline-block h-5 w-5 transform rounded-full bg-white transition"
+											style={`transform: translateX(${formData.active ? '22px' : '2px'});`}
+										></span>
+									</button>
+								</div>
 							</div>
 						{/if}
+
+						<div>
+							<label
+								for="can-invite"
+								class="block text-sm font-medium"
+								style="color: var(--text-primary);"
+							>
+								{$translationStore.translations?.users.canInvite || 'Can invite'}
+							</label>
+							<div class="mt-2">
+								<button
+									id="can-invite"
+									type="button"
+									role="switch"
+									aria-checked={!!formData.canInvite}
+									aria-label={$translationStore.translations?.users.canInvite || 'Can invite'}
+									on:click={() => (formData.canInvite = !formData.canInvite)}
+									class="relative inline-flex h-6 w-11 items-center rounded-full transition"
+									style={`background-color: ${formData.canInvite ? 'var(--accent-primary)' : 'var(--border-primary)'};`}
+								>
+									<span
+										class="inline-block h-5 w-5 transform rounded-full bg-white transition"
+										style={`transform: translateX(${formData.canInvite ? '22px' : '2px'});`}
+									></span>
+								</button>
+							</div>
+						</div>
 
 						<div class="flex gap-3 pt-4">
 							<button
@@ -344,7 +377,8 @@
 											username: user.username,
 											email: user.email,
 											role: user.role as 'ROOT' | 'ADMIN' | 'USER',
-											active: user.active
+											active: user.active,
+											canInvite: user.canInvite
 										};
 									}
 								}}
@@ -410,6 +444,23 @@
 							<div id="display-status" class="mt-1">
 								<span class={getStatusBadgeClass(user.active)}>
 									{user.active
+										? $translationStore.translations?.users.active || 'Active'
+										: $translationStore.translations?.users.inactive || 'Inactive'}
+								</span>
+							</div>
+						</div>
+
+						<div>
+							<label
+								for="display-can-invite"
+								class="block text-sm font-medium"
+								style="color: var(--text-secondary);"
+							>
+								{$translationStore.translations?.users.canInvite || 'Can invite'}
+							</label>
+							<div id="display-can-invite" class="mt-1">
+								<span class={getStatusBadgeClass(!!user.canInvite)}>
+									{user.canInvite
 										? $translationStore.translations?.users.active || 'Active'
 										: $translationStore.translations?.users.inactive || 'Inactive'}
 								</span>

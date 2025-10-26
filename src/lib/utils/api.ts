@@ -13,6 +13,7 @@ interface RegisterRequest {
 	username: string;
 	email: string;
 	password: string;
+	invitationCode: string;
 }
 
 interface ForgotPasswordRequest {
@@ -54,6 +55,7 @@ interface UpdateUserRequest {
 	email?: string;
 	role?: 'ROOT' | 'ADMIN' | 'USER';
 	active?: boolean;
+	canInvite?: boolean;
 }
 
 interface UpdateUserResponse {
@@ -123,6 +125,7 @@ interface User {
 	active: boolean;
 	createdAt: string;
 	updatedAt: string;
+	canInvite: boolean;
 }
 
 interface UsersResponse {
@@ -146,6 +149,20 @@ interface SearchUsersParams {
 interface GetUsersParams {
 	page?: number;
 	limit?: number;
+}
+
+interface CreateInvitationRequest {
+	expiresInDays?: number;
+}
+
+interface CreateInvitationResponse {
+	message: string;
+	invitation: {
+		id: string;
+		code: string;
+		expiresAt: string;
+		createdAt: string;
+	};
 }
 
 interface ApiError {
@@ -369,6 +386,17 @@ class ApiClient {
 			}
 		});
 	}
+
+	async createInvitation(data?: CreateInvitationRequest): Promise<CreateInvitationResponse> {
+		return this.makeRequest<CreateInvitationResponse>('/invitations', {
+			method: 'POST',
+			body: data ? JSON.stringify(data) : JSON.stringify({ expiresInDays: 7 }),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+	}
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
@@ -401,6 +429,10 @@ export const auditApi = {
 	getAuditLogs: (params?: GetAuditLogsParams) => apiClient.getAuditLogs(params)
 };
 
+export const invitationApi = {
+	create: (data?: CreateInvitationRequest) => apiClient.createInvitation(data)
+};
+
 export type {
 	LoginRequest,
 	RegisterRequest,
@@ -422,5 +454,7 @@ export type {
 	User,
 	UsersResponse,
 	SearchUsersParams,
-	GetUsersParams
+	GetUsersParams,
+	CreateInvitationRequest,
+	CreateInvitationResponse
 };

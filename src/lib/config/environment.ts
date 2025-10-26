@@ -1,13 +1,15 @@
 // Environment configurations
 const environments = {
 	local: {
+		WEBAPP_BASE_URL: 'http://localhost:3001',
 		API_BASE_URL: 'http://localhost:3000/api',
 		CDS_BASE_URL: 'http://localhost:3003/api',
 		environment: 'local'
 	},
 	production: {
-		API_BASE_URL: 'https://api.example.com/api',
-		CDS_BASE_URL: 'https://cds.example.com/api',
+		WEBAPP_BASE_URL: 'https://webapp.pokemonbb.es',
+		API_BASE_URL: 'https://api.pokemonbb.es/api',
+		CDS_BASE_URL: 'https://cds.pokemonbb.es/api',
 		environment: 'production'
 	}
 };
