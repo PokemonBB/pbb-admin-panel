@@ -3,14 +3,23 @@
 	import { browser } from '$app/environment';
 	import { config } from '$lib/config/environment';
 
+	let gameBaseUrl = '';
 	let swaggerApiUrl = '';
 	let swaggerCdsUrl = '';
 	if (browser) {
+		gameBaseUrl = config.WEBAPP_BASE_URL;
 		swaggerApiUrl = config.API_BASE_URL;
 		swaggerCdsUrl = config.CDS_BASE_URL;
 	}
 
 	$: menuItems = [
+		{
+			path: gameBaseUrl,
+			key: 'gameBaseUrl',
+			icon: '👾',
+			descriptionKey: 'gameBaseUrlDescription',
+			external: true
+		},
 		{ path: '/users', key: 'users', icon: '👥', descriptionKey: 'manageUsers' },
 		{ path: '/pokemons', key: 'pokemons', icon: '⚡', descriptionKey: 'managePokemons' },
 		{ path: '/moves', key: 'moves', icon: '🎯', descriptionKey: 'manageMoves' },

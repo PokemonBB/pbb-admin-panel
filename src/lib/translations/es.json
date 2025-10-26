@@ -38,6 +38,8 @@
     "manageObjects": "Gestionar objetos y elementos del juego",
     "manageAudit": "Ver registros del sistema y pistas de auditoría",
     "manageDocs": "Documentación general de la aplicación y guías del sistema",
+    "gameBaseUrl": "Pokémon Battle Brawl",
+    "gameBaseUrlDescription": "Ir al juego",
     "swaggerApi": "Swagger API",
     "swaggerApiDescription": "Documentación interactiva de API",
     "swaggerCds": "Swagger CDS",

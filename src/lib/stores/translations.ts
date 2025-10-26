@@ -34,6 +34,8 @@ interface Translations {
 		manageObjects: string;
 		manageAudit: string;
 		manageDocs: string;
+		gameBaseUrl: string;
+		gameBaseUrlDescription: string;
 		swaggerApi: string;
 		swaggerApiDescription: string;
 		swaggerCds: string;
