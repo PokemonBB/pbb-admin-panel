@@ -15,7 +15,8 @@
     "copyLink": "Copy link",
     "copied": "Copied",
     "close": "Close",
-    "copyCode": "Copy code"
+    "copyCode": "Copy code",
+    "disabled": "Disabled"
   },
   "login": {
     "signInToAccount": "Sign in to your account",

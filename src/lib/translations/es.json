@@ -15,7 +15,8 @@
     "copyLink": "Copiar enlace",
     "copied": "Copiado",
     "close": "Cerrar",
-    "copyCode": "Copiar código"
+    "copyCode": "Copiar código",
+    "disabled": "Deshabilitado"
   },
   "login": {
     "signInToAccount": "Inicia sesión en tu cuenta",

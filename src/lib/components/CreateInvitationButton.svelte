@@ -51,11 +51,9 @@
 
 <button
 	on:click={openModal}
-	class="rounded-md border px-3 py-2 text-sm font-medium shadow-sm hover:opacity-90"
-	style="border-color: var(--border-primary); background-color: var(--bg-secondary); color: var(--text-primary);"
+	class="cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
 >
-	{($translationStore.translations?.common as any)?.createInvitation || 'Create invitation'}
-	<span class="ml-1">➕</span>
+	{'➕ ' + ($translationStore.translations?.common as any)?.createInvitation || 'Create invitation'}
 </button>
 
 {#if isOpen}
@@ -72,7 +70,7 @@
 				</h3>
 				<button
 					on:click={closeModal}
-					class="rounded-md px-2 py-1 text-sm hover:opacity-80"
+					class="cursor-pointer rounded-md px-2 py-1 text-sm hover:opacity-80"
 					style="color: var(--text-secondary);"
 					aria-label={($translationStore.translations?.common as any)?.close || 'Close'}>✕</button
 				>
@@ -100,7 +98,7 @@
 						<button
 							type="button"
 							on:click={copyToClipboard}
-							class="rounded-md border px-3 py-2 text-sm font-medium hover:opacity-90"
+							class="cursor-pointer rounded-md border px-3 py-2 text-sm font-medium hover:opacity-90"
 							style="border-color: var(--border-primary); background-color: var(--bg-secondary); color: var(--text-primary);"
 						>
 							{#if copied}
@@ -129,7 +127,7 @@
 						<button
 							type="button"
 							on:click={copyCodeToClipboard}
-							class="rounded-md border px-3 py-2 text-sm font-medium hover:opacity-90"
+							class="cursor-pointer rounded-md border px-3 py-2 text-sm font-medium hover:opacity-90"
 							style="border-color: var(--border-primary); background-color: var(--bg-secondary); color: var(--text-primary);"
 						>
 							{#if copiedCode}
